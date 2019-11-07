@@ -71,7 +71,7 @@ environment:
     synclounge
     thelounge
     unifi
-    video_stream
+    video-stream
     watchtower
     wordpress
     xteve
