@@ -2,7 +2,7 @@
 # Title:            Community: VideoStream                              #
 # Author(s):        javi11                                              #
 # URL:              https://github.com/Cloudbox/Community               #
-# Docker Image(s):  rxwatcher/pgdvs-docker                              #
+# Docker Image(s):  mrmachine/python-googledrive-videostream            #
 # --                                                                    #
 #         Part of the Cloudbox project: https://cloudbox.works          #
 #########################################################################
@@ -36,7 +36,7 @@
 - name: Create and start container
   docker_container:
     name: video_stream
-    image: rxwatcher/pgdvs-docker
+    image: mrmachine/python-googledrive-videostream
     pull: yes
     published_ports:
       - '127.0.0.1:9988:9988'
