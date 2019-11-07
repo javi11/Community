@@ -41,6 +41,7 @@
     published_ports:
       - '127.0.0.1:9988:9988'
     env:
+      TINI_SUBREAPER: ''
       TZ: '{{ tz }}'
       PUID: '{{ uid }}'
       PGID: '{{ gid }}'
