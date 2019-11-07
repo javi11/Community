@@ -45,11 +45,11 @@
       PUID: '{{ uid }}'
       PGID: '{{ gid }}'
       UMASK: 002
-      VIRTUAL_HOST: 'stream.{{ user.domain }}'
+      VIRTUAL_HOST: 'video_stream.{{ user.domain }}'
       VIRTUAL_PORT: 9988
-      LETSENCRYPT_HOST: 'stream.{{ user.domain }}'
+      LETSENCRYPT_HOST: 'video_stream.{{ user.domain }}'
       LETSENCRYPT_EMAIL: '{{ user.email }}'
-    volumes: '{{ default_volumes + nzbs_downloads_path|default([]) + torrents_downloads_path|default([]) }}'
+    volumes: '{{ default_volumes }}'
     labels:
       'com.github.cloudbox.cloudbox_managed': 'true'
     networks:
