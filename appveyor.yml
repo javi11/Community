@@ -16,8 +16,8 @@ matrix:
 build: off
 
 environment:
-  CLOUDBOX_PATH: "/home/appveyor/cloudbox"
-  COMMUNITY_PATH: "/home/appveyor/projects/community"
+  CLOUDBOX_PATH: '/home/appveyor/cloudbox'
+  COMMUNITY_PATH: '/home/appveyor/projects/community'
   TAGS: >
     airdcpp
     airsonic
@@ -70,6 +70,7 @@ environment:
     subsonic
     synclounge
     thelounge
+    transmission
     unifi
     watchtower
     wordpress
