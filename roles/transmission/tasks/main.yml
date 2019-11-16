@@ -49,16 +49,12 @@
     name: transmission
     image: linuxserver/transmission
     pull: yes
-    published_ports:
-      - '51413:51413'
-      - '51413:51413/udp'
-      - '9091:8085'
     env:
       TZ: '{{ tz }}'
       PUID: '{{ uid }}'
       PGID: '{{ gid }}'
       VIRTUAL_HOST: 'transmission.{{ user.domain }}'
-      VIRTUAL_PORT: 8085
+      VIRTUAL_PORT: 9091
       LETSENCRYPT_HOST: 'transmission.{{ user.domain }}'
       LETSENCRYPT_EMAIL: '{{ user.email }}'
       UMASK_SET: 002
