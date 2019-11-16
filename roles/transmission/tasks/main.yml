@@ -49,6 +49,10 @@
     name: transmission
     image: linuxserver/transmission
     pull: yes
+    published_ports:
+      - '51413:51413'
+      - '51413:51413/udp'
+      - '9091:9091'
     env:
       TZ: '{{ tz }}'
       PUID: '{{ uid }}'
