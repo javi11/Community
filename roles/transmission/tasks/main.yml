@@ -66,10 +66,12 @@
     volumes: '{{ default_volumes + torrents_downloads_path|default([]) }}'
     labels:
       'com.github.cloudbox.cloudbox_managed': 'true'
+    capabilities:
+      - NET_ADMIN
     networks:
       - name: cloudbox
         aliases:
           - transmission
     purge_networks: yes
-    restart_policy: unless-stopped
+    restart_policy: always
     state: started
