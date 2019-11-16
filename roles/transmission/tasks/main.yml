@@ -62,6 +62,7 @@
       LETSENCRYPT_HOST: 'transmission.{{ user.domain }}'
       LETSENCRYPT_EMAIL: '{{ user.email }}'
       UMASK_SET: 002
+      TRANSMISSION_WEB_HOME: 'combustion-release'
     volumes: '{{ default_volumes + torrents_downloads_path|default([]) }}'
     labels:
       'com.github.cloudbox.cloudbox_managed': 'true'
