@@ -43,6 +43,7 @@
       - '/opt/transmission:/config'
       - '/opt/scripts:/scripts'
       - '/mnt:/mnt'
+      - '/mnt/local/downloads/torrents/transmission/watched:/watch'
 
 - name: Create and start container
   docker_container:
