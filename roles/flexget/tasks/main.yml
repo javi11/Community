@@ -36,7 +36,6 @@
     env:
       UMASK_SET: 022
       UMASK: 002
-      TZ: 'Europe/London'
       PUID: '{{ uid }}'
       PGID: '{{ gid }}'
       VIRTUAL_HOST: 'flexget.{{ user.domain }}'
