@@ -16,8 +16,8 @@ matrix:
 build: off
 
 environment:
-  CLOUDBOX_PATH: "/home/appveyor/cloudbox"
-  COMMUNITY_PATH: "/home/appveyor/projects/community"
+  CLOUDBOX_PATH: '/home/appveyor/cloudbox'
+  COMMUNITY_PATH: '/home/appveyor/projects/community'
   TAGS: >
     airdcpp
     airsonic
@@ -37,6 +37,7 @@ environment:
     epms
     filebot
     funkwhale
+    flexget
     gazee
     glances
     goplaxt
