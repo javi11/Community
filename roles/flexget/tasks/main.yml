@@ -2,7 +2,7 @@
 # Title:            Cloudbox Community: FlexGet                        #
 # Author(s):        javi11                                              #
 # URL:              https://github.com/Cloudbox/Community               #
-# Docker Image(s):  wiserain/flexget                                    #
+# Docker Image(s):  cpoppema/docker-flexget                             #
 # --                                                                    #
 #         Part of the Cloudbox project: https://cloudbox.works          #
 #########################################################################
@@ -29,24 +29,25 @@
 - name: Create and start container
   docker_container:
     name: flexget
-    image: wiserain/flexget
+    image: cpoppema/docker-flexget
     pull: yes
     published_ports:
-      - '127.0.0.1:3539:3539'
+      - '127.0.0.1:5050:5050'
     env:
       UMASK_SET: 022
       UMASK: 002
       PUID: '{{ uid }}'
       PGID: '{{ gid }}'
       VIRTUAL_HOST: 'flexget.{{ user.domain }}'
-      VIRTUAL_PORT: 3539
+      VIRTUAL_PORT: 5050
       LETSENCRYPT_HOST: 'flexget.{{ user.domain }}'
       LETSENCRYPT_EMAIL: '{{ user.email }}'
+      TORRENT_PLUGIN: 'deluge'
     volumes:
       - '/etc/localtime:/etc/localtime:ro'
       - '/opt/flexget:/config'
       - '/mnt:/mnt'
-      - '/mnt/local:/data'
+      - '/mnt/local/downloads:/downloads'
     labels:
       'com.github.cloudbox.cloudbox_managed': 'true'
     networks:
