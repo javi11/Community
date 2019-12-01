@@ -1,0 +1,62 @@
+#########################################################################
+# Title:            Cloudbox Community: Couchpotato                     #
+# Author(s):        javi11                                              #
+# URL:              https://github.com/Cloudbox/Community               #
+# Docker Image(s):  barbequesauce/watcher3                              #
+# --                                                                    #
+#         Part of the Cloudbox project: https://cloudbox.works          #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: 'Setting CloudFlare DNS Record'
+  include_role:
+    name: cloudflare-dns
+  vars:
+    record: watcher3
+  when: cloudflare_enabled
+
+- name: Stop and remove any existing container
+  docker_container:
+    name: watcher3
+    state: absent
+
+- name: Create watcher3 directories
+  file: 'path={{ item }} state=directory mode=0775 owner={{ user.name }} group={{ user.name }}'
+  with_items:
+    - /opt/watcher3
+
+- name: Create and start container
+  docker_container:
+    name: watcher3
+    image: barbequesauce/watcher3
+    pull: yes
+    published_ports:
+      - '127.0.0.1:9090:9090'
+    env:
+      UMASK_SET: 022
+      UMASK: 002
+      TZ: 'Europe/London'
+      PUID: '{{ uid }}'
+      PGID: '{{ gid }}'
+      APP_GID: '{{ gid }}'
+      APP_UID: '{{ uid }}'
+      VIRTUAL_HOST: 'watcher3.{{ user.domain }}'
+      VIRTUAL_PORT: 9090
+      LETSENCRYPT_HOST: 'watcher3.{{ user.domain }}'
+      LETSENCRYPT_EMAIL: '{{ user.email }}'
+    volumes:
+      - '/etc/localtime:/etc/localtime:ro'
+      - '/opt/watcher3:/config'
+      - '/mnt:/mnt'
+      - '/mnt/unionfs/Media/Movies:/movies'
+      - '/mnt/local/downloads:/downloads'
+    labels:
+      'com.github.cloudbox.cloudbox_managed': 'true'
+    networks:
+      - name: cloudbox
+        aliases:
+          - watcher3
+    purge_networks: yes
+    restart_policy: always
+    state: started
