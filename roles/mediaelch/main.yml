@@ -21,7 +21,7 @@
     name: mediaelch
     state: absent
 
-- name: Create filebot directories
+- name: Create mediaelch directories
   file: "path={{ item }} state=directory mode=0775 owner={{ user.name }} group={{ user.name }}"
   with_items:
     - /opt/mediaelch
