@@ -1,0 +1,59 @@
+#########################################################################
+# Title:            Community: MediaElch                                #
+# Author(s):        atilling                                            #
+# URL:              https://github.com/Cloudbox/Community               #
+# Docker Image(s):  rveillerot/mediaelch                                #
+# --                                                                    #
+#         Part of the Cloudbox project: https://cloudbox.works          #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Setting CloudFlare DNS Record"
+  include_role:
+    name: cloudflare-dns
+  vars:
+    record: mediaelch
+  when: cloudflare_enabled
+
+- name: Stop and remove any existing container
+  docker_container:
+    name: mediaelch
+    state: absent
+
+- name: Create filebot directories
+  file: "path={{ item }} state=directory mode=0775 owner={{ user.name }} group={{ user.name }}"
+  with_items:
+    - /opt/mediaelch
+
+- name: Create and start container
+  docker_container:
+    name: mediaelch
+    image: rveillerot/mediaelch
+    pull: yes
+    published_ports:
+      - "127.0.0.1:5800:5800"
+      - "127.0.0.1:5900:5900"
+    env:
+      TZ: "{{ tz }}"
+      PUID: "{{ uid }}"
+      PGID: "{{ gid }}"
+      VIRTUAL_HOST: "mediaelch.{{ user.domain }}"
+      VIRTUAL_PORT: "5800"
+      LETSENCRYPT_HOST: "mediaelch.{{ user.domain }}"
+      LETSENCRYPT_EMAIL: "{{ user.email }}"
+    volumes:
+      - "/opt/mediaelch:/home/mediaelch/.config/kvibes"
+      - "/mnt:/mnt"
+      - "/mnt/feeder/Media/TV:/movies"
+      - "/mnt/feeder/Media/Movies:/shows"
+      - "/mnt/feeder/downloads:/downloads"
+    labels:
+      "com.github.cloudbox.cloudbox_managed": "true"
+    networks:
+      - name: cloudbox
+        aliases:
+          - mediaelch
+    purge_networks: yes
+    restart_policy: unless-stopped
+    state: started

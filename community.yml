@@ -52,6 +52,7 @@
     - { role: lazylibrarian, tags: ['lazylibrarian'] }
     - { role: logarr, tags: ['logarr'] }
     - { role: mediabutler, tags: ['mediabutler'] }
+    - { role: mediaelch, tags: ['mediaelch'] }
     - { role: medusa, tags: ['medusa'] }
     - { role: mellow, tags: ['mellow'] }
     - { role: minecraft, tags: ['minecraft'] }
