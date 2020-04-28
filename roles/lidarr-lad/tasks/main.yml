@@ -43,7 +43,7 @@
       VIRTUAL_HOST: 'lidarr-lad.{{ user.domain }}'
       VIRTUAL_PORT: '8686'
       ENABLE_LAD: TRUE
-      ARL_TOKEN: ''
+      ARL_TOKEN: '001f4e1866bfc395b9eb163a64c81e109a2072bafdfe3c9062823440f7332ba330cefa6fbfc7df62c3f5efb782543f823535f1f05ae7a6958e91e1e7473f10a4005c0a47c4fd6a2417e993fb384bb442e55c07ce62aa9e6f4abc1295b5664c91'
       LETSENCRYPT_HOST: 'lidarr-lad.{{ user.domain }}'
       CONCURRENCY: 4
       VerifyTrackCount: true
@@ -55,6 +55,8 @@
       LETSENCRYPT_EMAIL: '{{ user.email }}'
       TZ: '{{ tz }}'
     volumes:
+      - '/mnt:/mnt:rw'
+      - '/mnt/unionfs/Media/Music:/music:rw'
       - '/mnt/local:/storage:rw'
       - '/opt/lidarr-lad/config:/config:rw'
     labels:
@@ -62,7 +64,7 @@
     networks:
       - name: cloudbox
         aliases:
-          - lidarr-lad
+          - deezloader
     purge_networks: yes
     restart_policy: always
     state: started
