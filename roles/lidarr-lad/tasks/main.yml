@@ -1,0 +1,68 @@
+#########################################################################
+# Title:            Community: Lidarr-lad                               #
+# Author(s):        laris11                                             #
+# URL:              https://github.com/Cloudbox/Community               #
+# Docker Image(s):  bocki/deezloaderrmx                                 #
+# --                                                                    #
+#         Part of the Cloudbox project: https://cloudbox.works          #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: 'Set DNS Record on CloudFlare'
+  include_role:
+    name: cloudflare-dns
+  vars:
+    record: lidarr-lad
+  when: cloudflare_enabled
+
+- name: Stop and remove any existing container
+  docker_container:
+    name: lidarr-lad
+    state: absent
+
+- name: Create lidarr-lad directories
+  file: 'path={{ item }} state=directory mode=0775 owner={{ user.name }} group={{ user.name }} recurse=yes'
+  with_items:
+    - /opt/lidarr-lad/config
+    - /mnt/local/downloads/lidarr/deezloaderremix
+    - /mnt/local/downloads/lidarr/lidarr-import
+
+- name: Create and start container
+  docker_container:
+    name: lidarr-lad
+    image: 'randomninjaatk/lidarr-lad'
+    pull: yes
+    published_ports:
+      - '127.0.0.1:8686:8686'
+    env:
+      UMASK: '002'
+      PUID: '{{ uid }}'
+      PGID: '{{ gid }}'
+      UPDATE_LAD: FALSE
+      VIRTUAL_HOST: 'lidarr-lad.{{ user.domain }}'
+      VIRTUAL_PORT: '8686'
+      ENABLE_LAD: TRUE
+      ARL_TOKEN: ''
+      LETSENCRYPT_HOST: 'lidarr-lad.{{ user.domain }}'
+      CONCURRENCY: 4
+      VerifyTrackCount: true
+      amount: 1000000000
+      quality: FLAC
+      FolderPermissions: 777
+      FilePermissions: 666
+      DownLoadArtistArtwork: false
+      LETSENCRYPT_EMAIL: '{{ user.email }}'
+      TZ: '{{ tz }}'
+    volumes:
+      - '/mnt/local:/storage:rw'
+      - '/opt/lidarr-lad/config:/config:rw'
+    labels:
+      'com.github.cloudbox.cloudbox_managed': 'true'
+    networks:
+      - name: cloudbox
+        aliases:
+          - lidarr-lad
+    purge_networks: yes
+    restart_policy: always
+    state: started

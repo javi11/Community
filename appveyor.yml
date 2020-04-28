@@ -16,9 +16,9 @@ matrix:
 build: off
 
 environment:
-  CLOUDBOX_BRANCH: "master"
-  CLOUDBOX_PATH: "/home/appveyor/cloudbox"
-  COMMUNITY_PATH: "/home/appveyor/projects/community"
+  CLOUDBOX_BRANCH: 'master'
+  CLOUDBOX_PATH: '/home/appveyor/cloudbox'
+  COMMUNITY_PATH: '/home/appveyor/projects/community'
   TAGS: >
     airdcpp
     airsonic
@@ -52,6 +52,7 @@ environment:
     kitana
     lazylibrarian
     logarr
+    lidarr-lad
     mediabutler
     mediaelch
     medusa
